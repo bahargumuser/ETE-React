@@ -1,19 +1,24 @@
 import React, {useState} from "react";
+import Homepage from "./Homepage";
+import { useHistory } from "react-router-dom";
 
 
 export const Register = (props) => {
     const [email, setEmail] = useState('');
     const [pass, setPass] = useState('');
-    const [name, setName] = useState(''); 
+    const [name, setName] = useState('');
+    let history = useHistory();
+
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(email);
+        history.push("/Homepage");
 
     }
 
     return (
+  
         <div className="auth-form">
             <h2>Login</h2>
       <form className="register-form" onSubmit={handleSubmit}>
@@ -27,6 +32,8 @@ export const Register = (props) => {
       </form>
       <button className="link-btn" onClick={() => props.onFormSwitch('login')}>Already have an account? Login here.</button>
       </div>
+
+  
   
     )
-}
+    }
