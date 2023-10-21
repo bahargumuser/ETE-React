@@ -12,12 +12,34 @@ import Modal from "./Modal";
 function App() {
   const [currentForm, setCurrentForm] = useState('login');
   const [modalOpen, setModalOpen] =useState(false);
+  const [companyCount, setCompanyCount] = useState(0);
+  const [latestProduct, setLatestProduct] = useState(null);
 
-  const [rows, setRows] = useState( [
-    {page: "Page1", description: "This is the first page", status: "Live"},
-    {page: "Page2", description: "This is the second page", status: "Live"},
-    {page: "Page3", description: "This is the third page", status: "Live"},
+
+  const [rows, setRows] = useState([
+    {
+      companyName: "Company 1",
+      legalNumber: "12345",
+      incorporationLegalNumber: "67890",
+      website: "www.company1.com",
+      status: "Live",
+    },
+    {
+      companyName: "Company 2",
+      legalNumber: "54321",
+      incorporationLegalNumber: "09876",
+      website: "www.company2.com",
+      status: "Live",
+    },
+    {
+      companyName: "Company 3",
+      legalNumber: "98765",
+      incorporationLegalNumber: "43210",
+      website: "www.company3.com",
+      status: "Live",
+    },
   ]);
+  
   const [rowToEdit, setRowToEdit] = useState(null);
 
   
