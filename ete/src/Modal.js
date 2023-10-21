@@ -5,8 +5,10 @@ import "./Modal.css";
 export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const [formState, setFormState] = useState(
     defaultValue || {
-      page: "",
-      description: "",
+      companyName: "",
+      companyLegalNumber: "",
+      incorporationCountry: "",
+      Website: "",
       status: "live",
     }
   );
@@ -52,15 +54,31 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       <div className="modal">
         <form>
           <div className="form-group">
-            <label htmlFor="page">Page</label>
+            <label htmlFor="page">Company Name</label>
             <input name="page" onChange={handleChange} value={formState.page} />
           </div>
           <div className="form-group">
-            <label htmlFor="description">Description</label>
-            <textarea
+            <label htmlFor="description">Company Legal Number</label>
+            <input
               name="description"
               onChange={handleChange}
               value={formState.description}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="incorporationCountry">Incorporation Country</label>
+            <input
+              name="incorporationCountry"
+              onChange={handleChange}
+              value={formState.incorporationCountry}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="incorporationCountry">Website</label>
+            <input
+              name="website"
+              onChange={handleChange}
+              value={formState.website}
             />
           </div>
           <div className="form-group">

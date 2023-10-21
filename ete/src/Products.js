@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
-
+import axios from 'axios';
 
 function Products ({rows, deleteRow, editRow}) {
+
+    const [productsData, setProductsData] = useState([]);
+
+     useEffect(() => {
+    axios.get('/products')
+      .then((response) => {
+        setProductsData(response.data);
+      })
+      .catch((error) => {
+        console.error('Veri çekme hatası:', error);
+      });
+  }, []);
+
   return (
     <div className="Products">
         <table className="table">
