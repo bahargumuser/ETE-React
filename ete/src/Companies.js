@@ -35,7 +35,7 @@ function Companies  ({rows, deleteRow, editRow})  {
             <Search
                 placeholder="Search company..."
                 onSearch={handleSearch}
-                enterButton
+                className='search'
             />
             <table className="table">
                 <thead>

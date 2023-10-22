@@ -38,7 +38,7 @@ function Products  ({rows, deleteRow, editRow})  {
              <Search
                 placeholder="Search product..."
                 onSearch={handleSearch}
-                enterButton
+                className='search'
             />
             <table className="table">
                 <thead>
