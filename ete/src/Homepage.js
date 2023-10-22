@@ -17,8 +17,8 @@ function Homepage() {
 
         <h1 className='topic'>Statistic</h1>
         
-        <Link to="/Companies">Companies</Link>
-        <Link to="/Products">Products</Link>
+        <Link to="/Companies" className="custom-link">Companies</Link>
+        <Link to="/Products" className="custom-link">Products</Link>
         
   
       </div>
