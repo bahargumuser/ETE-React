@@ -3,15 +3,20 @@ import './App.css';
 import { Login } from './Login';
 import { Register } from './Register';
 import  Homepage from "./Homepage";
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 import Companies from './Companies';
 import Products from './Products';
 import Modal from "./Modal";
+import Modalpro from './Modalpro';
+import { Input } from 'antd';
+const { Search } = Input;
+
 
 
 function App() {
   const [currentForm, setCurrentForm] = useState('login');
   const [modalOpen, setModalOpen] =useState(false);
+  const [modalOpenpro, setModalOpenpro] =useState(false);
   const [companyCount, setCompanyCount] = useState(0);
   const [latestProduct, setLatestProduct] = useState(null);
 
@@ -38,7 +43,123 @@ function App() {
       website: "www.company3.com",
       status: "Live",
     },
+    {
+      companyName: "Company 3",
+      legalNumber: "98765",
+      incorporationLegalNumber: "43210",
+      website: "www.company3.com",
+      status: "Live",
+    },
+    {
+      companyName: "Company 3",
+      legalNumber: "98765",
+      incorporationLegalNumber: "43210",
+      website: "www.company3.com",
+      status: "Live",
+    },
+    {
+      companyName: "Company 3",
+      legalNumber: "98765",
+      incorporationLegalNumber: "43210",
+      website: "www.company3.com",
+      status: "Live",
+    },
+    {
+      companyName: "Company 3",
+      legalNumber: "98765",
+      incorporationLegalNumber: "43210",
+      website: "www.company3.com",
+      status: "Live",
+    },
+    {
+      companyName: "Company 3",
+      legalNumber: "98765",
+      incorporationLegalNumber: "43210",
+      website: "www.company3.com",
+      status: "Live",
+    },
+    {
+      companyName: "Company 3",
+      legalNumber: "98765",
+      incorporationLegalNumber: "43210",
+      website: "www.company3.com",
+      status: "Live",
+    },
+    {
+      companyName: "Company 3",
+      legalNumber: "98765",
+      incorporationLegalNumber: "43210",
+      website: "www.company3.com",
+      status: "Live",
+    },
+    {
+      companyName: "Company 3",
+      legalNumber: "98765",
+      incorporationLegalNumber: "43210",
+      website: "www.company3.com",
+      status: "Live",
+    },
+
+    {
+      companyName: "Company 3",
+      legalNumber: "98765",
+      incorporationLegalNumber: "43210",
+      website: "www.company3.com",
+      status: "Live",
+    },
+    {
+      companyName: "Company 0",
+      legalNumber: "98765",
+      incorporationLegalNumber: "43210",
+      website: "www.company3.com",
+      status: "Live",
+    },
   ]);
+  const [rowsone, setRowsone] = useState([
+    {
+      productName: "Product 1",
+      productCategory: "category",
+      productAmount: "67890",
+      amountUnit: "",
+      companyName: "",
+      status: "Live",
+    },
+    {
+      productName: "Product 2",
+      productCategory: "category",
+      productAmount: "67890",
+      amountUnit: "",
+      companyName: "",
+      status: "Live",
+    },
+    {
+      productName: "Product 3",
+      productCategory: "category",
+      productAmount: "67890",
+      amountUnit: "",
+      companyName: "",
+      status: "Live",
+    },
+  ]);
+  
+  const [rowToEditOne, setRowToEditOne] = useState(null);
+  
+  const handleDeleteRowOne = (targetIndex) => {
+    setRowsone(rowsone.filter((_, idx) => idx !== targetIndex));
+  };
+  
+  const handleEditRowOne = (idx) => {
+    setRowToEditOne(idx);
+  
+    setModalOpenpro(true);
+  };
+  
+  const handleSubmitOne = (newRow) => {
+    setRowToEditOne(null);
+  
+    setRowsone([...rowsone, newRow]);
+  };
+  
   
   const [rowToEdit, setRowToEdit] = useState(null);
 
@@ -68,8 +189,6 @@ const toggleForm = (forName) => {
         );
   };
 
-
-
   return (
 
     <div className="App">
@@ -79,9 +198,15 @@ const toggleForm = (forName) => {
         </Route>
         <Route path='/Companies'>
           <Companies rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow}/>
+          <button onClick={() => setModalOpen(true)} className='btn'  >
+        Add
+         </button>
         </Route>
         <Route path='/Products'>
-          <Products rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow}/>
+         <Products rows={rows} deleteRow={handleDeleteRowOne} editRow={handleEditRowOne}/>
+         <button onClick={() => setModalOpenpro(true)} className='btn'>
+          Add
+        </button>
         </Route>
         <Route path='/'> 
         {
@@ -90,11 +215,6 @@ const toggleForm = (forName) => {
         </Route>
       </Switch>
 
-
-      
-      <button onClick={() => setModalOpen(true)} className='btn'  >
-        Add
-         </button>
          {
           modalOpen && (
             <Modal
@@ -106,8 +226,20 @@ const toggleForm = (forName) => {
             defaultValue={rowToEdit !== null && rows[rowToEdit]}
             />
           )}
-         
+          {
+          modalOpenpro && (
+            <Modalpro
+            closeModalOne={() => {
+              setModalOpenpro(false);
+              setRowToEditOne(null);
+            }}
+            onSubmit={handleSubmit}
+            defaultValue={rowToEditOne !== null && rowsone[rowToEditOne]}
+            />
+          )}
+          
 
+   
     </div>
 
   );
