@@ -1,22 +1,42 @@
+import { AudioOutlined } from '@ant-design/icons';
 import React, { useEffect, useState } from 'react';
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
 import axios from 'axios';
+import { Pagination } from 'antd';
+import { Input, Space } from 'antd';
+const { Search } = Input;
 
 function Companies  ({rows, deleteRow, editRow})  {
     const [companiesData, setCompaniesData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchedRows, setSearchedRows] = useState(null);
 
-    useEffect(() => {
-        axios.get('/companies')
-          .then((response) => {
-            setCompaniesData(response.data);
-          })
-          .catch((error) => {
-            console.error('Veri çekme hatası:', error);
-          });
-      }, []);
+      const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+
+    const itemsPerPage = 10; 
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    
+    const currentItems = searchedRows ? searchedRows : rows.slice(startIndex, endIndex);
+
+
+    const handleSearch = (value) => {
+        const searchResult = rows.filter((row) => {
+            return row.companyName.toLowerCase().includes(value.toLowerCase());
+        });
+
+        setSearchedRows(searchResult);
+    };
 
       return (
         <div className="Companies">
+            <Search
+                placeholder="Search company..."
+                onSearch={handleSearch}
+                enterButton
+            />
             <table className="table">
                 <thead>
                     <tr>
@@ -29,9 +49,17 @@ function Companies  ({rows, deleteRow, editRow})  {
                     </tr>
                 </thead>
                 <tbody>
-                    {rows.map((row, idx) => {
+                    {currentItems.map((row, idx) => {
                         const statusText =
                             row.status.charAt(0).toUpperCase() + row.status.slice(1);
+                            {searchedRows ? (
+                                searchedRows.map((row, idx) => {
+                                })
+                            ) : (
+                                currentItems.map((row, idx) => {
+                                    // ...
+                                })
+                            )}
     
                         return (
                             <tr key={idx}>
@@ -57,11 +85,20 @@ function Companies  ({rows, deleteRow, editRow})  {
                                     </span>
                                 </td>
                             </tr>
+                            
                         );
                     })}
                 </tbody>
             </table>
+            <Pagination
+                current={currentPage}
+                total={rows.length}
+                pageSize={itemsPerPage}
+                onChange={handlePageChange} 
+            />
+    
         </div>
+        
     );
 }
 
