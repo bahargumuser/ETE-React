@@ -6,7 +6,7 @@
   align-items: center;
   justify-content: center;
   color: white;
-  background-image: linear-gradient(79deg, #C66FBC 48%, #F7944D);
+  background-image: linear-gradient(79deg, hsl(237, 89%, 76%) 48%, hwb(207 50% 5%));
 
 }
 
@@ -108,7 +108,7 @@ button {
 .delete-btn {
   color: #e10d05; 
 }
-/* ---hompage buttons--- */
+/* ---hompage --- */
 .custom-link {
   border:none;
   background-color: white;
@@ -117,7 +117,30 @@ button {
   border-radius: 10px;
   cursor: pointer;
   color: #7439db;
+  display: flex;
+  flex-wrap: nowrap;
+}
+.custom-link1 {
+  border:none;
+  background-color: white;
+  padding: 18px;
+  margin: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #7439db;
+  display: flex;
+  flex-wrap: nowrap;
 }
 .custom-link:hover {
   background-color:  #C66FBC ;
+}
+.topic {
+  position: fixed;
+  top: 0;
+  text-align: center;
+}
+/* ---- */
+.search {
+padding: 5px 250px;
+
 }
