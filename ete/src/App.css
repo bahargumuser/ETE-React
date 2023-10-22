@@ -22,6 +22,7 @@
     border-radius: 10px;
     margin: 0.5rem;
   }
+
 }
 
 label {
@@ -47,13 +48,10 @@ button {
   color: white;
   text-decoration: underline;
 }
-.Companies  {
-  width: 100%;
 
-}
-.Products {
-  width: 100%;
-}
+/* ---Tables CSS--- */
+
+
 .table {
   display: block;
   overflow: hidden;
@@ -62,10 +60,9 @@ button {
   box-shadow: 0px 10px 20px #ccc;
   border-radius: 10px;
   white-space: normal;
-  width: 60vh;
-  max-width: 100%;
   margin: auto;
   overflow-x: auto;
+
 }
 .table thead {
   background-color: #ccc;
@@ -84,9 +81,7 @@ button {
 }
 .expend {
   width: 9%; 
-
 }
-
 .label {
   border-radius: 3px;
    padding: 0.3rem;
@@ -112,4 +107,17 @@ button {
 
 .delete-btn {
   color: #e10d05; 
+}
+/* ---hompage buttons--- */
+.custom-link {
+  border:none;
+  background-color: white;
+  padding: 18px;
+  margin: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  color: #7439db;
+}
+.custom-link:hover {
+  background-color:  #C66FBC ;
 }
