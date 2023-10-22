@@ -1,26 +1,27 @@
 import React, { useState } from 'react';
 
 import './Modal.css';
+import axios from 'axios';
 
 export const Modalpro = ({ closeModalOne, onSubmit, defaultValue }) => {
   const [formStateP, setFormStateP] = useState(
     defaultValue || {
-      productName: '',
-      productCategory: '',
-      productAmount: '',
-      amountUnit: '',
-      companyName: '',
-      status: 'live',
+      product_name: '',
+      product_category: '',
+      product_amount: '',
+      product_unit: '',
+      companies_id: '',
+      product_status: 'Live',
     }
   );
   const [errors, setErrors] = useState('');
 
   const validateForm = () => {
     if (
-      formStateP.productName &&
-      formStateP.productCategory &&
-      formStateP.productAmount &&
-      formStateP.amountUnit
+      formStateP.product_name &&
+      formStateP.product_category &&
+      formStateP.product_amount &&
+      formStateP.product_unit
     ) {
       setErrors('');
       return true;
@@ -42,13 +43,21 @@ export const Modalpro = ({ closeModalOne, onSubmit, defaultValue }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     if (!validateForm()) return;
-
-    onSubmit(formStateP);
-
-    closeModalOne();
+  
+    axios
+      .post("http://localhost:9000/products/update", formStateP)
+      .then((res) => {
+        console.log(res.status);
+        closeModalOne();
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+  
 
   return (
     <div
@@ -60,55 +69,48 @@ export const Modalpro = ({ closeModalOne, onSubmit, defaultValue }) => {
       <div className="modalpro">
         <form>
           <div className="form-group">
-            <label htmlFor="productName">Product Name</label>
+            <label htmlFor="product_name">Product Name</label>
             <input
-              name="productName"
+              name="product_name"
               onChange={handleChange}
-              value={formStateP.productName}
+              value={formStateP.product_name}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="productCategory">Product Category</label>
+            <label htmlFor="product_category">Product Category</label>
             <input
-              name="productCategory"
+              name="product_category"
               onChange={handleChange}
-              value={formStateP.productCategory}
+              value={formStateP.product_category}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="productAmount">Product Amount</label>
+            <label htmlFor="product_amount">Product Amount</label>
             <input
-              name="productAmount"
+              name="product_amount"
               onChange={handleChange}
-              value={formStateP.productAmount}
+              value={formStateP.product_amount}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="amountUnit">Amount Unit</label>
+            <label htmlFor="product_unit">Amount Unit</label>
             <input
-              name="amountUnit"
+              name="product_unit"
               onChange={handleChange}
-              value={formStateP.amountUnit}
+              value={formStateP.product_unit}
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="companyName">Company Name</label>
-            <input
-              name="companyName"
-              onChange={handleChange}
-              value={formStateP.companyName}
-            />
-          </div>
+       
           <div className="form-group">
             <label htmlFor="status">Status</label>
             <select
-              name="status"
+              name="product_status"
               onChange={handleChange}
-              value={formStateP.status}
+              value={formStateP.product_status}
             >
-              <option value="live">Live</option>
-              <option value="draft">Draft</option>
-              <option value="error">Error</option>
+              <option value="Live">Live</option>
+              <option value="Draft">Draft</option>
+              <option value="Error">Error</option>
             </select>
           </div>
           {errors && <div className="error">{`Please include: ${errors}`}</div>}

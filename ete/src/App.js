@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import { Login } from './Login';
 import { Register } from './Register';
@@ -9,6 +9,8 @@ import Products from './Products';
 import Modal from "./Modal";
 import Modalpro from './Modalpro';
 import { Input } from 'antd';
+import axios from 'axios';
+import { configConsumerProps } from 'antd/es/config-provider';
 const { Search } = Input;
 
 
@@ -23,130 +25,84 @@ function App() {
 
   const [rows, setRows] = useState([
     {
-      companyName: "Company 1",
-      legalNumber: "12345",
-      incorporationLegalNumber: "67890",
-      website: "www.company1.com",
-      status: "Live",
+      company_id:1,
+      company_name: "Company 1",
+      company_legal_number: "12345",
+      incorporation_country: "67890",
+      website_url: "www.company1.com",
+      company_status: "Live",
     },
     {
-      companyName: "Company 2",
-      legalNumber: "54321",
-      incorporationLegalNumber: "09876",
-      website: "www.company2.com",
-      status: "Live",
-    },
-    {
-      companyName: "Company 3",
-      legalNumber: "98765",
-      incorporationLegalNumber: "43210",
-      website: "www.company3.com",
-      status: "Live",
-    },
-    {
-      companyName: "Company 3",
-      legalNumber: "98765",
-      incorporationLegalNumber: "43210",
-      website: "www.company3.com",
-      status: "Live",
-    },
-    {
-      companyName: "Company 3",
-      legalNumber: "98765",
-      incorporationLegalNumber: "43210",
-      website: "www.company3.com",
-      status: "Live",
-    },
-    {
-      companyName: "Company 3",
-      legalNumber: "98765",
-      incorporationLegalNumber: "43210",
-      website: "www.company3.com",
-      status: "Live",
-    },
-    {
-      companyName: "Company 3",
-      legalNumber: "98765",
-      incorporationLegalNumber: "43210",
-      website: "www.company3.com",
-      status: "Live",
-    },
-    {
-      companyName: "Company 3",
-      legalNumber: "98765",
-      incorporationLegalNumber: "43210",
-      website: "www.company3.com",
-      status: "Live",
-    },
-    {
-      companyName: "Company 3",
-      legalNumber: "98765",
-      incorporationLegalNumber: "43210",
-      website: "www.company3.com",
-      status: "Live",
-    },
-    {
-      companyName: "Company 3",
-      legalNumber: "98765",
-      incorporationLegalNumber: "43210",
-      website: "www.company3.com",
-      status: "Live",
-    },
-    {
-      companyName: "Company 3",
-      legalNumber: "98765",
-      incorporationLegalNumber: "43210",
-      website: "www.company3.com",
-      status: "Live",
-    },
-
-    {
-      companyName: "Company 3",
-      legalNumber: "98765",
-      incorporationLegalNumber: "43210",
-      website: "www.company3.com",
-      status: "Live",
-    },
-    {
-      companyName: "Company 0",
-      legalNumber: "98765",
-      incorporationLegalNumber: "43210",
-      website: "www.company3.com",
-      status: "Live",
-    },
+      company_id:2,
+      company_name: "Company 2",
+      company_legal_number: "54321",
+      incorporation_country: "09876",
+      website_url: "www.company2.com",
+      company_status: "Live",
+    }
   ]);
+
+  
+  
   const [rowsone, setRowsone] = useState([
     {
-      productName: "Product 1",
-      productCategory: "category",
+      product_id:1,
+      product_name: "Product 1",
+      product_category: "category",
       productAmount: "67890",
-      amountUnit: "",
-      companyName: "",
-      status: "Live",
+      product_unit: "",
+      company_id: "",
+      product_status: "Live",
+      company_name:"",
     },
     {
+      product_id:2,
       productName: "Product 2",
-      productCategory: "category",
-      productAmount: "67890",
-      amountUnit: "",
-      companyName: "",
-      status: "Live",
+      product_category: "category",
+      product_amount: "67890",
+      product_unit: "",
+      company_id: "",
+      product_status: "Live",
+      company_name:"",
     },
-    {
-      productName: "Product 3",
-      productCategory: "category",
-      productAmount: "67890",
-      amountUnit: "",
-      companyName: "",
-      status: "Live",
-    },
+  
   ]);
+  useEffect(() => {
+    const companyData = async()=>{
+ 
+     axios.get("http://localhost:9000/companies").then((res)=>{
+       setRows(res.data)
+    
+     }).catch((err)=>console.log(err))
+    }
+    const productsData = async()=>{
+ 
+     axios.get("http://localhost:9000/products").then((res)=>{
+      setRowsone(res.data)
+    
+     }).catch((err)=>console.log(err))
+    }
+    companyData();
+    productsData();
+ 
+   }, [])
   
   const [rowToEditOne, setRowToEditOne] = useState(null);
   
-  const handleDeleteRowOne = (targetIndex) => {
-    setRowsone(rowsone.filter((_, idx) => idx !== targetIndex));
+  const handleDeleteRowOne = async (targetIndex) => {
+    try {
+      const model = {
+        product_id: targetIndex,
+      };
+  
+      const res = await axios.delete("http://localhost:9000/products", { data: model });
+      console.log(res.status);
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
   };
+  
   
   const handleEditRowOne = (idx) => {
     setRowToEditOne(idx);
@@ -203,7 +159,7 @@ const toggleForm = (forName) => {
          </button>
         </Route>
         <Route path='/Products'>
-         <Products rows={rows} deleteRow={handleDeleteRowOne} editRow={handleEditRowOne}/>
+         <Products rows={rowsone} deleteRow={handleDeleteRowOne} editRow={handleEditRowOne}/>
          <button onClick={() => setModalOpenpro(true)} className='btn'>
           Add
         </button>

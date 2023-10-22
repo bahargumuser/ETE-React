@@ -24,7 +24,7 @@ function Companies  ({rows, deleteRow, editRow})  {
 
     const handleSearch = (value) => {
         const searchResult = rows.filter((row) => {
-            return row.companyName.toLowerCase().includes(value.toLowerCase());
+            return row.company_name.toLowerCase().includes(value.toLowerCase());
         });
 
         setSearchedRows(searchResult);
@@ -51,7 +51,7 @@ function Companies  ({rows, deleteRow, editRow})  {
                 <tbody>
                     {currentItems.map((row, idx) => {
                         const statusText =
-                            row.status.charAt(0).toUpperCase() + row.status.slice(1);
+                            row.company_status.charAt(0).toUpperCase() + row.company_status.slice(1);
                             {searchedRows ? (
                                 searchedRows.map((row, idx) => {
                                 })
@@ -63,12 +63,12 @@ function Companies  ({rows, deleteRow, editRow})  {
     
                         return (
                             <tr key={idx}>
-                                <td>{row.companyName}</td>
-                                <td>{row.legalNumber}</td>
-                                <td>{row.incorporationLegalNumber}</td>
-                                <td>{row.website}</td>
+                                <td>{row.company_name}</td>
+                                <td>{row.company_legal_number}</td>
+                                <td>{row.incorporation_country}</td>
+                                <td>{row.website_url}</td>
                                 <td>
-                                    <span className={`label label-${row.status}`}>
+                                    <span className={`label label-${row.company_status}`}>
                                         {statusText}
                                     </span>
                                 </td>
