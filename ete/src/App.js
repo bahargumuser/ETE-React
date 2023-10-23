@@ -10,7 +10,7 @@ import Modal from "./Modal";
 import Modalpro from './Modalpro';
 import { Input } from 'antd';
 import axios from 'axios';
-import { configConsumerProps } from 'antd/es/config-provider';
+
 const { Search } = Input;
 
 
@@ -18,7 +18,9 @@ const { Search } = Input;
 function App() {
   const [currentForm, setCurrentForm] = useState('login');
   const [modalOpen, setModalOpen] =useState(false);
+  const [modalNew, setmodalNew] =useState(false);
   const [modalOpenpro, setModalOpenpro] =useState(false);
+  const [modalNewpro, setmodalNewpro] =useState(false);
   const [companyCount, setCompanyCount] = useState(0);
   const [latestProduct, setLatestProduct] = useState(null);
 
@@ -124,8 +126,19 @@ const toggleForm = (forName) => {
   setCurrentForm(forName);
 }
 
-  const handleDeleteRow = (targetIndex) => {
-    setRows(rows.filter((_, idx) => idx !== targetIndex));
+  const handleDeleteRow = async (targetIndex) => {
+    try {
+      const model = {
+        company_id: targetIndex,
+      };
+  
+      const res = await axios.delete("http://localhost:9000/companies", { data: model });
+      console.log(res.status);
+      console.log("burası mı")
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
   };
   const handleEditRow = (idx) => {
     setRowToEdit(idx);
@@ -150,17 +163,17 @@ const toggleForm = (forName) => {
     <div className="App">
       <Switch>
         <Route path='/Homepage'>
-          <Homepage />
+          <Homepage rows={rows} />
         </Route>
         <Route path='/Companies'>
           <Companies rows={rows} deleteRow={handleDeleteRow} editRow={handleEditRow}/>
-          <button onClick={() => setModalOpen(true)} className='btn'  >
+          <button onClick={() => {setModalOpen(true);setmodalNew(true)}} className='btn'  >
         Add
          </button>
         </Route>
         <Route path='/Products'>
-         <Products rows={rowsone} deleteRow={handleDeleteRowOne} editRow={handleEditRowOne}/>
-         <button onClick={() => setModalOpenpro(true)} className='btn'>
+         <Products rows={rowsone}  deleteRow={handleDeleteRowOne} editRow={handleEditRowOne}/>
+         <button onClick={() => {setModalOpenpro(true);setmodalNewpro(true)}} className='btn'>
           Add
         </button>
         </Route>
@@ -174,9 +187,11 @@ const toggleForm = (forName) => {
          {
           modalOpen && (
             <Modal
+            modalNewpro={modalNew}
             closeModal={() => {
               setModalOpen(false);
               setRowToEdit(null);
+              setmodalNew(false)
             }}
             onSubmit={handleSubmit}
             defaultValue={rowToEdit !== null && rows[rowToEdit]}
@@ -184,10 +199,12 @@ const toggleForm = (forName) => {
           )}
           {
           modalOpenpro && (
-            <Modalpro
+            <Modalpro modalNewpro={modalNewpro} companies={rows}
+            setmodalNewpro={setmodalNewpro}
             closeModalOne={() => {
               setModalOpenpro(false);
               setRowToEditOne(null);
+              setmodalNewpro(false)
             }}
             onSubmit={handleSubmit}
             defaultValue={rowToEditOne !== null && rowsone[rowToEditOne]}

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { BsFillTrashFill, BsFillPencilFill } from "react-icons/bs";
-import axios from "axios";
 import { Pagination } from "antd";
 import { Input, Space } from "antd";
 const { Search } = Input;
@@ -25,7 +24,7 @@ function Products({ rows, deleteRow, editRow }) {
 
   const handleSearch = (value) => {
     const searchResult = rows.filter((row) => {
-      return row.company_name.toLowerCase().includes(value.toLowerCase());
+      return row.product_name.toLowerCase().includes(value.toLowerCase());
     });
 
     setSearchedRowsOne(searchResult);
@@ -68,7 +67,7 @@ function Products({ rows, deleteRow, editRow }) {
                 <td>{row.product_unit}</td>
                 <td>{row.company_name}</td>
                 <td>
-                  <span className={`label label-${row.product_status}`}>
+                  <span className={`label-live`}>
                     {statusText}
                   </span>
                 </td>

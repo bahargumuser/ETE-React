@@ -1,20 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import './Modal.css';
-import axios from 'axios';
+import "./Modal.css";
+import axios from "axios";
 
-export const Modalpro = ({ closeModalOne, onSubmit, defaultValue }) => {
+export const Modalpro = ({
+  closeModalOne,
+  onSubmit,
+  defaultValue,
+  setmodalNewpro,
+  modalNewpro,companies
+}) => {
   const [formStateP, setFormStateP] = useState(
     defaultValue || {
-      product_name: '',
-      product_category: '',
-      product_amount: '',
-      product_unit: '',
-      companies_id: '',
-      product_status: 'Live',
+      product_name: "",
+      product_category: "",
+      product_amount: "",
+      product_unit: "",
+      companies_id: "",
+      product_status: "Live",
     }
   );
-  const [errors, setErrors] = useState('');
+  const [errors, setErrors] = useState("");
 
   const validateForm = () => {
     if (
@@ -23,7 +29,7 @@ export const Modalpro = ({ closeModalOne, onSubmit, defaultValue }) => {
       formStateP.product_amount &&
       formStateP.product_unit
     ) {
-      setErrors('');
+      setErrors("");
       return true;
     } else {
       let errorFields = [];
@@ -32,7 +38,7 @@ export const Modalpro = ({ closeModalOne, onSubmit, defaultValue }) => {
           errorFields.push(key);
         }
       }
-      setErrors(errorFields.join(', '));
+      setErrors(errorFields.join(", "));
       return false;
     }
   };
@@ -43,9 +49,11 @@ export const Modalpro = ({ closeModalOne, onSubmit, defaultValue }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     if (!validateForm()) return;
-  
+    onSubmit(formStateP);
+    closeModalOne();
+
     axios
       .post("http://localhost:9000/products/update", formStateP)
       .then((res) => {
@@ -57,13 +65,31 @@ export const Modalpro = ({ closeModalOne, onSubmit, defaultValue }) => {
         console.log(err);
       });
   };
-  
+  const handleNewProduct = (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+    onSubmit(formStateP);
+    closeModalOne();
+
+    axios
+      .post("http://localhost:9000/products", formStateP)
+      .then((res) => {
+        console.log(res.status);
+        closeModalOne();
+        window.location.reload();
+        setmodalNewpro(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div
       className="modalpro-container"
       onClick={(e) => {
-        if (e.target.className === 'modalpro-container') closeModalOne();
+        if (e.target.className === "modalpro-container") closeModalOne();
       }}
     >
       <div className="modalpro">
@@ -100,7 +126,21 @@ export const Modalpro = ({ closeModalOne, onSubmit, defaultValue }) => {
               value={formStateP.product_unit}
             />
           </div>
-       
+          {modalNewpro && (
+            <div className="form-group">
+              <label htmlFor="company_id">Company ID</label>
+              <select
+                name="company_id"
+                onChange={handleChange}
+                value={formStateP.company_id}
+              >{companies.map((item)=>(
+              <option key={item.company_id} value={item.company_id}> {item.company_name}</option>
+              ))
+
+              }
+                 </select>
+            </div>
+          )}
           <div className="form-group">
             <label htmlFor="status">Status</label>
             <select
@@ -114,7 +154,11 @@ export const Modalpro = ({ closeModalOne, onSubmit, defaultValue }) => {
             </select>
           </div>
           {errors && <div className="error">{`Please include: ${errors}`}</div>}
-          <button type="submit" className="btn" onClick={handleSubmit}>
+          <button
+            type="submit"
+            className="btn"
+            onClick={modalNewpro ? handleNewProduct : handleSubmit}
+          >
             Submit
           </button>
         </form>

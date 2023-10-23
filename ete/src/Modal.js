@@ -1,21 +1,26 @@
 import React, { useState } from "react";
+import axios from 'axios';
 
 import "./Modal.css";
 
-export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
+export const Modal = ({ closeModal, onSubmit, defaultValue ,setmodalNewpro,modalNewpro}) => {
   const [formState, setFormState] = useState(
     defaultValue || {
-      companyName: "",
-      companyLegalNumber: "",
-      incorporationCountry: "",
-      Website: "",
-      status: "live",
+      company_name: "",
+      company_legal_number: "",
+      incorporation_country: "",
+      website_url: "",
+      company_status: "live",
     }
   );
   const [errors, setErrors] = useState("");
 
   const validateForm = () => {
-    if (formState.page && formState.description && formState.status) {
+    if (formState.company_name && 
+      formState.company_legal_number &&
+       formState.incorporation_country &&
+       formState.website_url
+       ) {
       setErrors("");
       return true;
     } else {
@@ -33,17 +38,44 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
   const handleChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!validateForm()) return;
-
     onSubmit(formState);
-
     closeModal();
-  };
 
+    axios
+      .post("http://localhost:9000/companies/update", formState)
+      .then((res) => {
+        console.log(res.status);
+        closeModal();
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const handleNewCompany = (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+    onSubmit(formState);
+    closeModal();
+
+    axios
+      .post("http://localhost:9000/companies", formState)
+      .then((res) => {
+        console.log(res.status);
+        closeModal();
+        window.location.reload();
+        setmodalNewpro(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+ 
   return (
     <div
       className="modal-container"
@@ -54,39 +86,39 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
       <div className="modal">
         <form>
           <div className="form-group">
-            <label htmlFor="page">Company Name</label>
-            <input name="page" onChange={handleChange} value={formState.page} />
+            <label htmlFor="company_name">Company Name</label>
+            <input name="company_name" onChange={handleChange} value={formState.company_name} />
           </div>
           <div className="form-group">
-            <label htmlFor="description">Company Legal Number</label>
+            <label htmlFor="company_legal_number">Company Legal Number</label>
             <input
-              name="description"
+              name="company_legal_number"
               onChange={handleChange}
-              value={formState.description}
+              value={formState.company_legal_number}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="incorporationCountry">Incorporation Country</label>
+            <label htmlFor="incorporation_country">Incorporation Country</label>
             <input
-              name="incorporationCountry"
+              name="incorporation_country"
               onChange={handleChange}
-              value={formState.incorporationCountry}
+              value={formState.incorporation_country}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="incorporationCountry">Website</label>
+            <label htmlFor="website_url">Website</label>
             <input
-              name="website"
+              name="website_url"
               onChange={handleChange}
-              value={formState.website}
+              value={formState.website_url}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="status">Status</label>
+            <label htmlFor="company_status">Status</label>
             <select
-              name="status"
+              name="company_status"
               onChange={handleChange}
-              value={formState.status}
+              value={formState.company_status}
             >
               <option value="live">Live</option>
               <option value="draft">Draft</option>
@@ -94,7 +126,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
             </select>
           </div>
           {errors && <div className="error">{`Please include: ${errors}`}</div>}
-          <button type="submit" className="btn" onClick={handleSubmit}>
+          <button type="submit" className="btn" onClick={modalNewpro ? handleNewCompany :handleSubmit}>
             Submit
           </button>
         </form>
