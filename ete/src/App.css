@@ -62,7 +62,8 @@ button {
   white-space: normal;
   margin: auto;
   overflow-x: auto;
-
+  background-color: whitesmoke;
+  color:hsl(0, 1%, 21%);
 }
 .table thead {
   background-color: #ccc;
@@ -109,38 +110,59 @@ button {
   color: #e10d05; 
 }
 /* ---hompage --- */
-.custom-link {
-  border:none;
-  background-color: white;
-  padding: 18px;
-  margin: 10px;
-  border-radius: 10px;
-  cursor: pointer;
-  color: #7439db;
+.Homepage {
   display: flex;
-  flex-wrap: nowrap;
+  flex-direction: column-reverse;
+
+ 
 }
-.custom-link1 {
+.custom-link, .custom-link1 {
   border:none;
-  background-color: white;
+  background-color: whitesmoke;
   padding: 18px;
   margin: 10px;
   border-radius: 10px;
   cursor: pointer;
   color: #7439db;
-  display: flex;
   flex-wrap: nowrap;
+  font-size: 14px;
+  text-decoration: double;
+
+   align-items: center; 
+   transition: opacity 0.2s;
+
 }
 .custom-link:hover {
-  background-color:  #C66FBC ;
+  background-color: whitesmoke ;
+  opacity: 0.7;
+}
+.custom-link1:hover {
+  background-color: whitesmoke ;
+  opacity: 0.7;
 }
 .topic {
   position: fixed;
   top: 0;
   text-align: center;
 }
+.custom-statistic {
+  position: static;
+  margin: 15px 40px 5px 45px;
+  width: 10%;
+  transform: scale(1);
+
+  background-color: whitesmoke;
+
+  border-radius: 10px;
+  cursor: pointer;
+  color: #7439db;
+  flex-wrap: nowrap;
+  font-size: 14px;
+  text-decoration: double;
+ 
+}
+
 /* ---- */
 .search {
 padding: 5px 250px;
-
 }
