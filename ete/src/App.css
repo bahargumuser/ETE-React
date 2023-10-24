@@ -112,9 +112,9 @@ button {
 /* ---hompage --- */
 .Homepage {
   display: flex;
-  flex-direction: column-reverse;
 
- 
+  align-items: center;
+  justify-content: center;
 }
 .custom-link, .custom-link1 {
   border:none;
@@ -150,16 +150,13 @@ button {
   margin: 15px 40px 5px 45px;
   width: 10%;
   transform: scale(1);
-
   background-color: whitesmoke;
-
   border-radius: 10px;
   cursor: pointer;
   color: #7439db;
   flex-wrap: nowrap;
   font-size: 14px;
   text-decoration: double;
- 
 }
 
 /* ---- */
